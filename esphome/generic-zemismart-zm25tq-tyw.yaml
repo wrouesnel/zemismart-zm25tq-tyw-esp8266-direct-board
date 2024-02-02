@@ -1,0 +1,142 @@
+# ESP-1S chip-swapped Zemismart ZM25TQ (TY-W) motorized blinds.
+# These have a WBR1-IPEX chip in them originally, communicating over
+# serial. It provides 3.3V power and 3.3V TTL lines.
+
+external_components:
+- source:
+    type: local
+    path: components
+
+esphome:
+  name: cover-zemismart-blinds
+  friendly_name: Zemismart ZM25TQ Blinds
+  name_add_mac_suffix: true
+  platform: ESP8266
+  board: esp01_1m
+  project:
+    name: "wrouesnel.zemismart-zm25tq-esp01"
+    version: "1.0"
+  esp8266_restore_from_flash: false
+
+logger:
+  level: DEBUG
+  baud_rate: 0
+
+web_server:
+  port: 80
+
+captive_portal:
+
+mdns:
+
+api:
+
+ota:
+
+wifi:
+  ap:
+    password: !secret fallback_wifi_password
+
+uart:
+  tx_pin: TX
+  rx_pin: RX
+  baud_rate: 9600
+
+tuya:
+
+cover:
+  - platform: tuya-ex
+    name: Motor
+    control_datapoint: 1
+    position_datapoint: 2
+    position_report_datapoint: 3
+    restore_mode: NO_RESTORE
+    min_value: 0
+    max_value: 100
+    device_class: blind
+    invert_position_report: true
+
+number:
+  - platform: tuya
+    name: Set Position
+    min_value: 0
+    max_value: 100
+    step: 1
+    number_datapoint: 2
+    unit_of_measurement: "%"
+    mode: box
+    entity_category: DIAGNOSTIC
+
+sensor:
+  - platform: uptime
+    name: Uptime
+  - platform: wifi_signal
+    name: WiFi Signal
+    update_interval: 60s
+    entity_category: DIAGNOSTIC
+    # Sensors from Tuya
+  - platform: "tuya"
+    name: "Reported Position"
+    sensor_datapoint: 3
+    entity_category: DIAGNOSTIC
+  # - platform: "tuya"
+  #   name: "Setpoint Position"
+  #   sensor_datapoint: 2
+  #   entity_category: DIAGNOSTIC
+  - platform: "tuya"
+    name: "Current Operation"
+    sensor_datapoint: 7
+    entity_category: DIAGNOSTIC
+  - platform: "tuya"
+    name: "Current Situation"
+    sensor_datapoint: 11
+    entity_category: DIAGNOSTIC
+  # Bitfield: 1 appears to mean "limits not set" - TODO: lock out the cover controls from HA
+  # until limits are set.
+  - platform: "tuya"
+    name: "Motor Fault"
+    sensor_datapoint: 12
+    entity_category: DIAGNOSTIC
+
+switch:
+- platform: tuya
+  name: Lower Limit Set
+  switch_datapoint: 103
+  entity_category: CONFIG
+- platform: tuya
+  name: Middle Set
+  switch_datapoint: 104
+  entity_category: CONFIG
+- platform: tuya
+  name: Upper Limit Set
+  switch_datapoint: 105
+  entity_category: CONFIG
+
+select:
+- platform: tuya
+  name: Motor Direction
+  enum_datapoint: 5
+  options:
+    0: Normal
+    1: Invert
+  entity_category: CONFIG
+- platform: tuya
+  name: Motor Mode
+  enum_datapoint: 106
+  options:
+    0: Continuous
+    1: Stepped
+  entity_category: CONFIG
+
+text_sensor:
+  - platform: version
+    name: ESPHome Version
+    entity_category: DIAGNOSTIC
+  - platform: wifi_info
+    ip_address:
+      name: IP
+    ssid:
+      name: SSID
+    bssid:
+      name: BSSID
+  

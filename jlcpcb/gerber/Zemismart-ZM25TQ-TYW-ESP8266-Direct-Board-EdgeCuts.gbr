@@ -1,0 +1,23 @@
+%TF.GenerationSoftware,KiCad,Pcbnew,7.0.10-7.0.10~ubuntu22.04.1*%
+%TF.CreationDate,2024-01-12T01:12:04+11:00*%
+%TF.ProjectId,Zemismart-ZM25TQ-TYW-ESP8266-Direct-Board,5a656d69-736d-4617-9274-2d5a4d323554,1*%
+%TF.SameCoordinates,Original*%
+%TF.FileFunction,Profile,NP*%
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW 7.0.10-7.0.10~ubuntu22.04.1) date 2024-01-12 01:12:04*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+%TA.AperFunction,Profile*%
+%ADD10C,0.100000*%
+%TD*%
+G04 APERTURE END LIST*
+D10*
+X137000000Y-84000000D02*
+X157000000Y-84000000D01*
+X157000000Y-108000000D01*
+X137000000Y-108000000D01*
+X137000000Y-84000000D01*
+M02*
